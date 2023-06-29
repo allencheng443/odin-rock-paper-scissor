@@ -12,10 +12,7 @@ const results = new Map([
  * Generate computer's choice by random function
  * @returns string
  */
-const getComputerChoice = () => {
-  const games = ['scissor', 'rock', 'paper']
-  return games[Math.floor(Math.random() * 3)]
-}
+const getRandomChoice = () => ['rock', 'scissor', 'paper'][Math.floor(Math.random() * 3)]
 
 /**
  * Compare both choice and return the result message
@@ -54,4 +51,20 @@ const init = () => {
     even: 0,
     logs: [],
   }
+}
+
+const getMessage = (player, com, isPlayerWin) =>
+  typeof isPlayerWin === 'undefined'
+    ? `This game is even.`
+    : isPlayerWin
+    ? `You win, ${player[0].toUpperCase() + player.slice(1)} beats ${com[0].toUpperCase() + com.slice(1)}`
+    : `You lose, ${com[0].toUpperCase() + com.slice(1)} beats ${player[0].toUpperCase() + player.slice(1)}`
+
+const renderScreen = ({ total, win, lose, even, logs }, message) => {
+  const texts = document.querySelectorAll('.current > p > span')
+  texts[0].textContent = total || null
+  texts[1].textContent = win || null
+  texts[2].textContent = lose || null
+  texts[3].textContent = even || null
+  texts[4].textContent = message || null
 }
