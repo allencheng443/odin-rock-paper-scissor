@@ -18,20 +18,6 @@ const getComputerChoice = () => {
 }
 
 /**
- *
- * @returns string playerChoice
- */
-const getPlayerInput = () => {
-  let input
-  while (true) {
-    input = prompt('Please enter scissor, rock or paper (case-insensitive)')
-    if (input && ['scissor', 'rock', 'paper'].includes(input.toLowerCase())) {
-      return input.toLowerCase()
-    }
-  }
-}
-
-/**
  * Compare both choice and return the result message
  * @param {*} playerSelection
  * @param {*} computerSelection
