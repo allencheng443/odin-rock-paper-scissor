@@ -59,3 +59,13 @@ const game = count => {
     console.log(`Term ${i}: ${playRound(playerSelection, computerSelection)}`)
   }
 }
+
+const init = () => {
+  return {
+    total: 0,
+    win: 0,
+    lose: 0,
+    even: 0,
+    logs: [],
+  }
+}
