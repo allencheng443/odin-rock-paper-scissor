@@ -80,4 +80,15 @@ body {
 
 .logs {
   width: 30%;
+  display: flex;
+  flex-direction: column;
+}
+
+.logs > h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.logs > p {
+  margin-bottom: 1rem;
 }

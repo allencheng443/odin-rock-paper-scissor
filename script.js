@@ -1,57 +1,16 @@
-// Define the maps of game result
-const results = new Map([
-  [['scissor', 'paper'], true],
-  [['scissor', 'rock'], false],
-  [['rock', 'scissor'], true],
-  [['rock', 'paper'], false],
-  [['paper', 'rock'], true],
-  [['paper', 'scissor'], false],
-])
+const init = () => {
+  data.total = 0
+  data.win = 0
+  data.lose = 0
+  data.even = 0
+  data.logs.length = 0
+}
 
 /**
  * Generate computer's choice by random function
  * @returns string
  */
 const getRandomChoice = () => ['rock', 'scissor', 'paper'][Math.floor(Math.random() * 3)]
-
-/**
- * Compare both choice and return the result message
- * @param {*} playerSelection
- * @param {*} computerSelection
- * @returns
- */
-const playRound = (playerSelection, computerSelection) => {
-  for (let [key, value] of results) {
-    if (key[0] === playerSelection && key[1] === computerSelection) {
-      const player = playerSelection[0].toUpperCase() + playerSelection.slice(1)
-      const com = computerSelection[0].toUpperCase() + computerSelection.slice(1)
-      return value ? `You Win! ${player} beats ${com}` : `You Lose! ${com} beats ${player}`
-    }
-  }
-  return `Game is even!`
-}
-
-/**
- * Run the game by specific loops
- * @param {*} count
- */
-const game = count => {
-  for (let i = 1; i <= count; i++) {
-    const playerSelection = getPlayerInput()
-    const computerSelection = getComputerChoice()
-    console.log(`Term ${i}: ${playRound(playerSelection, computerSelection)}`)
-  }
-}
-
-const init = () => {
-  return {
-    total: 0,
-    win: 0,
-    lose: 0,
-    even: 0,
-    logs: [],
-  }
-}
 
 const getMessage = (player, com, isPlayerWin) =>
   typeof isPlayerWin === 'undefined'
@@ -60,11 +19,62 @@ const getMessage = (player, com, isPlayerWin) =>
     ? `You win, ${player[0].toUpperCase() + player.slice(1)} beats ${com[0].toUpperCase() + com.slice(1)}`
     : `You lose, ${com[0].toUpperCase() + com.slice(1)} beats ${player[0].toUpperCase() + player.slice(1)}`
 
+/**
+ * Compare both choice and return the result message
+ * @param {*} player
+ * @param {*} com
+ * @returns
+ */
+const playRound = (player, com) => {
+  // Define the maps of game result
+  const results = new Map([
+    [['scissor', 'paper'], true],
+    [['scissor', 'rock'], false],
+    [['rock', 'scissor'], true],
+    [['rock', 'paper'], false],
+    [['paper', 'rock'], true],
+    [['paper', 'scissor'], false],
+  ])
+
+  for (let [key, value] of results) {
+    if (key[0] === player && key[1] === com) {
+      value ? data.win++ : data.lose++
+      return getMessage(player, com, value)
+    }
+  }
+  data.even++
+  return getMessage(player, com)
+}
+
 const renderScreen = ({ total, win, lose, even, logs }, message) => {
   const texts = document.querySelectorAll('.current > p > span')
+  const logsElement = document.querySelector('.logs')
+  const history = logs.reduce((acc, curr, key) => acc + `<p>${key + 1} ${curr}</p>\n`, '<h2>Logs</h2>\n')
+  logsElement.innerHTML = history
   texts[0].textContent = total || null
   texts[1].textContent = win || null
   texts[2].textContent = lose || null
   texts[3].textContent = even || null
   texts[4].textContent = message || null
 }
+
+let data = {
+  total: 0,
+  win: 0,
+  lose: 0,
+  even: 0,
+  logs: [],
+}
+
+const buttons = document.querySelectorAll('.game > button')
+buttons.forEach(button =>
+  button.addEventListener('click', () => {
+    data.total === 5 && init()
+    data.total += 1
+    const player = button.value
+    const com = getRandomChoice()
+    const message = playRound(player, com)
+    data.logs.push(message)
+    renderScreen(data, message)
+  })
+)
