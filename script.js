@@ -49,7 +49,7 @@ const playRound = (player, com) => {
 const renderScreen = ({ total, win, lose, even, logs }, message) => {
   const texts = document.querySelectorAll('.current > p > span')
   const logsElement = document.querySelector('.logs')
-  const history = logs.reduce((acc, curr, key) => acc + `<p>${key + 1} ${curr}</p>\n`, '<h2>Logs</h2>\n')
+  const history = logs.reduce((acc, curr, key) => acc + `<p>${key + 1} => ${curr}</p>\n`, '<h2>Logs</h2>\n')
   logsElement.innerHTML = history
   texts[0].textContent = total || null
   texts[1].textContent = win || null
