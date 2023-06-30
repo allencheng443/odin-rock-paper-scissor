@@ -57,7 +57,8 @@ const renderScreen = ({ total, win, lose, even, logs }, message) => {
   texts[2].textContent = lose || null
   texts[3].textContent = even || null
   texts[4].textContent = message || null
-  texts[5].textContent = total % 5 === 0 ? (win === lose ? 'even' : win > lose ? 'player' : 'computer') : null
+  texts[5].textContent =
+    total !== 0 && total % 5 === 0 ? (win === lose ? 'even' : win > lose ? 'player' : 'computer') : null
   resetButton.disabled = total ? false : true
 }
 
