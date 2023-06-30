@@ -4,6 +4,7 @@ const init = () => {
   data.lose = 0
   data.even = 0
   data.logs.length = 0
+  renderScreen(data)
 }
 
 /**
@@ -48,14 +49,16 @@ const playRound = (player, com) => {
 
 const renderScreen = ({ total, win, lose, even, logs }, message) => {
   const texts = document.querySelectorAll('.current > p > span')
-  const logsElement = document.querySelector('.logs')
-  const history = logs.reduce((acc, curr, key) => acc + `<p>${key + 1} => ${curr}</p>\n`, '<h2>Logs</h2>\n')
-  logsElement.innerHTML = history
+  const logsContent = document.querySelector('.logs-content')
+  const logsList = logs.reduce((acc, curr, key) => acc + `<p data-key="${key}">${key + 1} - ${curr}</p>`, '')
+  logsContent.innerHTML = logsList
   texts[0].textContent = total || null
   texts[1].textContent = win || null
   texts[2].textContent = lose || null
   texts[3].textContent = even || null
   texts[4].textContent = message || null
+  texts[5].textContent = total % 5 === 0 ? (win === lose ? 'even' : win > lose ? 'player' : 'computer') : null
+  resetButton.disabled = total ? false : true
 }
 
 let data = {
@@ -66,10 +69,14 @@ let data = {
   logs: [],
 }
 
+const resetButton = document.querySelector('#reset')
+resetButton.addEventListener('click', init)
+
 const buttons = document.querySelectorAll('.game > button')
 buttons.forEach(button =>
   button.addEventListener('click', () => {
-    data.total === 5 && init()
+    // Remove the logic that plays exactly 5 rounds
+    // data.total === 5 && init()
     data.total += 1
     const player = button.value
     const com = getRandomChoice()

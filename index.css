@@ -40,6 +40,29 @@ body {
   text-align: center;
 }
 
+.actions {
+  padding: 2rem;
+  display: flex;
+  justify-content: end;
+}
+
+.actions > button {
+  padding: 1rem 2rem;
+  background-color: rgba(201, 69, 32, 0.6);
+  border: none;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  text-transform: uppercase;
+}
+
+.actions > button:hover {
+  background-color: rgba(201, 69, 32, 1.0);
+}
+
+.actions > button:disabled {
+  background-color: lightgray;
+}
+
 .game {
   padding: 2rem;
   display: flex;
@@ -72,12 +95,14 @@ body {
 .current > p {
   padding: 1rem;
   text-transform: uppercase;
-  min-height: 3rem;
 }
 
-.current > p:last-child {
+.result {
   background-color: lightpink;
-  text-transform: none;
+}
+
+.winner {
+  background-color: lightblue;
 }
 
 .logs {
